@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""type-annotated function sum_mixed_list takes a list mxd_lst of ints and floats"""
+"""type-annotated func sum_mixed_list takes a list mxd_lst(ints and floats)"""
 import typing
 
 
