@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""takes an arg max_delay, default value of 10 & waits for a random delay between 0 and max_delay"""
+"""takes an arg max_delay & waits for a random delay between 0 and max_delay"""
 import asyncio
 import random
 
