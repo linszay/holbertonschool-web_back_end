@@ -9,4 +9,4 @@ async def async_generator() -> typing.Generator[float, None, None]:
     """loop and wait 1 sec then yield a random number"""
     for _ in range(10):
         await asyncio.sleep(1)
-        yield random.randint(0, 10)
+        yield random.uniform(0, 10)
