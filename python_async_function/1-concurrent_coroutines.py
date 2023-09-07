@@ -6,7 +6,7 @@ import random
 import typing
 
 
-async def wait_n(n: int, max_delay: int = 10) -> typing.List[typing.Union[int, float]]:
+async def wait_n(n: int, max_delay: int = 10) -> typing.List[float]:
     """wait for random delay and returns it"""
     delays = []
     for _ in range(n):
