@@ -3,8 +3,8 @@
 import typing
 
 
-def element_length(lst: typing.Iterable[typing.
-                                        Sequence]) -> typing.List[typing.Tuple[typing.
-                                                                                      Sequence, int]]:
+seq = typing.Sequence
+tup = typing.Tuple
+def element_length(lst: typing.Iterable[seq]) -> typing.List[tup[seq, int]]:
     """annotate return with appropriate types"""
     return [(i, len(i)) for i in lst]
