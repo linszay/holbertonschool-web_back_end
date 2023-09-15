@@ -4,6 +4,7 @@ from base_caching import BaseCaching
 
 
 class BasicCache(BaseCaching):
+    """class inherits from the base caching system"""
     def put(self, key, item):
         """sets self.cache_data to item for key"""
         if key is not None and item is not None:
