@@ -2,6 +2,7 @@
 """class inherits and is a caching system"""
 from base_caching import BaseCaching
 
+
 class LIFOCache(BaseCaching):
     """class inherits from the base caching system"""
     def __init__(self):
