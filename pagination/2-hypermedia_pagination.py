@@ -42,7 +42,7 @@ class Server:
         start, end = index_range(page, page_size)
 
         return [] if start >= len(dataset) else dataset[start:end]
-    
+
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         """get paginated data using get_page"""
         data = self.get_page(page, page_size)
