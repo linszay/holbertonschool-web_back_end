@@ -15,6 +15,7 @@ def index_range(page, page_size):
 
 
 class Server:
+    """copied server class per instructions"""
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
