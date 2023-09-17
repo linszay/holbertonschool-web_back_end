@@ -11,7 +11,7 @@ class FIFOCache(BaseCaching):
 
     def put(self, key, item):
         """FIFO algorithm - discard first item in cache"""
-        if key is None and item is None:
+        if key is None or item is None:
             return
         if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             first_key = None
@@ -22,7 +22,8 @@ class FIFOCache(BaseCaching):
             if first_key is not None:
                 """print first item and delete from cache"""
                 print(f"DISCARD: {first_key}")
-                del self.self_cache[first_key]
+                del self.cache_data[first_key]
+
         self.cache_data[key] = item
 
     def get(self, key):
