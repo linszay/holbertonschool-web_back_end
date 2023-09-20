@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """filter_datum returns log message obfuscated(type annotated)"""
 import re
+from typing import List
 
 
-def filter_datum(fields: list[str], redaction: str, 
+def filter_datum(fields: List[str], redaction: str, 
                  message: str, separator: str) -> str:
     """use regex to replace occurences of certain field values"""
     for field in fields:
