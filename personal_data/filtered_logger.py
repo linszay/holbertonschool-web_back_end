@@ -24,6 +24,7 @@ class RedactingFormatter(logging.Formatter):
 
     sep = SEPARATOR
     red = REDACTION
+
     def format(self, record: logging.LogRecord) -> str:
         """filter values in incoming log records using filter_datum"""
         message = super(RedactingFormatter, self).format(record)
@@ -46,7 +47,7 @@ def filter_datum(fields: List[str], redaction: str,
     s = separator
     red = redaction
     f = fields
-    return re.sub(rf'({r(s)})({"|".join(map(r, f))})({r(s)})', 
+    return re.sub(rf'({r(s)})({"|".join(map(r, f))})({r(s)})',
                   rf'\1{red}\3', message)
 
 
@@ -85,7 +86,7 @@ def main() -> None:
     fd = filter_datum
     for row in cursor:
         log_msg = "; ".join([f"{field}={fd(ftf, '***', str(value), ';')}"
-                                  for field, value in zip(ftf, row)])
+                            for field, value in zip(ftf, row)])
         logger.info(log_msg)
     cursor.close()
     db.close()
