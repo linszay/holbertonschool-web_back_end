@@ -5,6 +5,7 @@ from typing import List
 import logging
 import csv
 import mysql.connector
+from mysql.connector import MySQLConnection
 import os
 
 
@@ -60,7 +61,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> mysql.connector.connection.MySQLConnection:
+def get_db() -> MySQLConnection:
     """returns a connector to the database"""
     username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
@@ -70,6 +71,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return mysql.connector.connect(
         user=username, password=password, host=host, database=database
     )
+
 
 def main() -> None:
     """get database connection, retrieve rows and display formatted"""
