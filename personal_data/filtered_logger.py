@@ -44,8 +44,8 @@ def filter_datum(fields: List[str], redaction: str,
     sep = separator
     red = redaction
     return re.sub(
-        rf'({ree(sep)})({"|".join(map(ree,
-         fields))})({ree(sep)})', rf'\1{red}\3',
+        rf'({ree(sep)})({"|".join(map(ree, fields))})({ree(sep)})',
+          rf'\1{red}\3',
         message
     )
 
