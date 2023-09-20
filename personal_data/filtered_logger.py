@@ -26,7 +26,7 @@ class RedactingFormatter(logging.Formatter):
             message = filter_datum([field], self.REDACTION, message, self.SEPARATOR)
         return message
 
-PII_FIELDS = ["name", "email", "phone", "ssn", "password"]
+PII_FIELDS: tuple = ["name", "email", "phone", "ssn", "password"]
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
@@ -49,6 +49,6 @@ def get_logger() -> logging.Logger:
         logger.setLevel(logging.INFO)
         logger.propagate = False
         stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+        stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELD))
         logger.addHandler(stream_handler)
         return logger
