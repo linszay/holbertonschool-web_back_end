@@ -22,11 +22,13 @@ class RedactingFormatter(logging.Formatter):
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
+    sep = SEPARATOR
+    red = REDACTION
     def format(self, record: logging.LogRecord) -> str:
         """filter values in incoming log records using filter_datum"""
         message = super(RedactingFormatter, self).format(record)
         for field in self.fields:
-            message = filter_datum([field], self.REDACTION, message, self.SEPARATOR)
+            message = filter_datum([field], self.red, message, self.sep)
         return message
 
 
@@ -40,14 +42,12 @@ def filter_datum(fields: List[str], redaction: str,
     """"|".join(map(re.escape, creates pattern to match/join fields"""
     """capture separator character after field"""
     """replace 1st capture group with 3rd capture group"""
-    ree = re.escape
-    sep = separator
+    r = re.escape
+    s = separator
     red = redaction
-    return re.sub(
-        rf'({ree(sep)})({"|".join(map(ree, fields))})({ree(sep)})',
-          rf'\1{red}\3',
-        message
-    )
+    f = fields
+    return re.sub(rf'({r(s)})({"|".join(map(r, f))})({r(s)})', 
+                  rf'\1{red}\3', message)
 
 
 def get_logger() -> logging.Logger:
@@ -81,12 +81,15 @@ def main() -> None:
     cursor.execute("SELECT * FROM users;")
     fields_to_filter = ["name", "email", "phone", "ssn", "password"]
 
+    ftf = fields_to_filter
+    fd = filter_datum
     for row in cursor:
-        log_message = "; ".join([f"{field}={filter_datum(fields_to_filter, '***', str(value), ';')}" for field, value in zip(fields_to_filter, row)])
-        logger.info(log_message)
-
+        log_msg = "; ".join([f"{field}={fd(ftf, '***', str(value), ';')}"
+                                  for field, value in zip(ftf, row)])
+        logger.info(log_msg)
     cursor.close()
     db.close()
+
 
 if __name__ == "__main__":
     main()
