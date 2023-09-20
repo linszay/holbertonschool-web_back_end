@@ -26,7 +26,7 @@ class RedactingFormatter(logging.Formatter):
             message = filter_datum([field], self.REDACTION, message, self.SEPARATOR)
         return message
 
-PII_FIELDS: tuple = ["name", "email", "phone", "ssn", "password"]
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
