@@ -28,32 +28,37 @@ class RedactingFormatter(logging.Formatter):
             message = filter_datum([field], self.REDACTION, message, self.SEPARATOR)
         return message
 
+
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """use regex to replace occurences of certain field values"""
     """select separator char and its surrounding parentheses"""
-    """"|".join(map(re.escape, creates regex pattern to match fields and joins them"""
+    """"|".join(map(re.escape, creates pattern to match/join fields"""
     """capture separator character after field"""
     """replace 1st capture group with 3rd capture group"""
     ree = re.escape
     sep = separator
     red = redaction
     return re.sub(
-        rf'({ree(sep)})({"|".join(map(ree, fields))})({ree(sep)})', rf'\1{red}\3',
+        rf'({ree(sep)})({"|".join(map(ree,
+         fields))})({ree(sep)})', rf'\1{red}\3',
         message
     )
 
+
 def get_logger() -> logging.Logger:
-        """logs up to logging.INFO level and has a streamhandler"""
-        logger = logging.getLogger('user_data')
-        logger.setLevel(logging.INFO)
-        logger.propagate = False
-        stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELD))
-        logger.addHandler(stream_handler)
-        return logger
+    """logs up to logging.INFO level and has a streamhandler"""
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELD))
+    logger.addHandler(stream_handler)
+    return logger
+
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """returns a connector to the database"""
