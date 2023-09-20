@@ -43,7 +43,7 @@ def filter_datum(fields: List[str], redaction: str,
         message
     )
 
-def get_logger():
+def get_logger() -> logging.Logger:
         """logs up to logging.INFO level and has a streamhandler"""
         logger = logging.getLogger('user_data')
         logger.setLevel(logging.INFO)
