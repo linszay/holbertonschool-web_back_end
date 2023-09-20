@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """filter_datum returns log message obfuscated(type annotated)"""
 import re
-from typing import List
+from typing import List, None
 import logging
 import csv
 import mysql.connector
@@ -65,3 +65,21 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return mysql.connector.connect(
         user=username, password=password, host=host, database=database
     )
+
+def main() -> None:
+    """get database connection, retrieve rows and display formatted"""
+    logger: Logger = logging.getLogger('user_data')
+    db: MySQLConnection = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    fields_to_filter = ["name", "email", "phone", "ssn", "password"]
+
+    for row in cursor:
+        log_message = "; ".join([f"{field}={filter_datum(fields_to_filter, '***', str(value), ';')}" for field, value in zip(fields_to_filter, row)])
+        logger.info(log_message)
+
+    cursor.close()
+    db.close()
+
+if __name__ == "__main__":
+    main()
