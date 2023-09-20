@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """filter_datum returns log message obfuscated(type annotated)"""
 import re
-from typing import List, None
+import typing
 import logging
 import csv
 import mysql.connector
@@ -16,7 +16,7 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: List[str]):
+    def __init__(self, fields: typing.list[str]):
         """updated to accept fields"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
@@ -32,7 +32,7 @@ class RedactingFormatter(logging.Formatter):
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
-def filter_datum(fields: List[str], redaction: str,
+def filter_datum(fields: typing.list[str], redaction: str,
                  message: str, separator: str) -> str:
     """use regex to replace occurences of certain field values"""
     """select separator char and its surrounding parentheses"""
