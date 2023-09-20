@@ -12,7 +12,9 @@ def filter_datum(fields: List[str], redaction: str,
     """capture separator character after field"""
     """replace 1st capture group with 3rd capture group"""
     ree = re.escape
+    sep = separator
+    red = redaction
     return re.sub(
-        rf'({ree(separator)})({"|".join(map(ree, fields))})({ree(separator)})', rf'\1{redaction}\3',
+        rf'({ree(sep)})({"|".join(map(ree, fields))})({ree(sep)})', rf'\1{red}\3',
         message
     )
