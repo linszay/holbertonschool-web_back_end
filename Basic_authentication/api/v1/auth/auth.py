@@ -10,9 +10,7 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """returns false for now - path & excluded_paths used later"""
-        if path is None or excluded_paths is None:
-            return True
-        elif len(excluded_paths) == 0:
+        if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
         else:
             for character in excluded_paths:
