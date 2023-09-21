@@ -22,7 +22,6 @@ class Auth:
                     return False
         return True
 
-
     def authorization_header(self, request=None) -> str:
         """returns None - request will be Flask req object"""
         return None
