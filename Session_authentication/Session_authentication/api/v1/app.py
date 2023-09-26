@@ -28,6 +28,8 @@ def before_request():
     """Before request"""
     if auth is None:
         return
+    
+    request.current_user = auth.current_user(request)
 
     """Paths that don't require authentication"""
     excluded_paths = ['/api/v1/status/', '/api/v1/status',
