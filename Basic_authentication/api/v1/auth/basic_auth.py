@@ -47,21 +47,21 @@ class BasicAuth(Auth):
         return decoded.split(':')
 
     def user_object_from_credentials(self,
-                                      user_email: str,
-                                        user_pwd: str) \
-                                            -> TypeVar('User'):
-           """returns User instance from email and pw"""
-           if user_email is None or not isinstance(user_email, str) \
-            or user_pwd is None or not isinstance(user_pwd, str):
-               return None
-           """using search to check db for matching email"""
-           email_found = User.search(email=user_email)
-           if not email_found:
-               return None
-           """if found then assign 1st matching item to user"""
-           user = email_found[0]
-           """if no pw or wrong pw then return None"""
-           if not user.is_valid_password(user_pwd):
-               return None
-           """else return user instance"""
-           return user
+                                     user_email: str,
+                                     user_pwd: str) \
+            -> TypeVar('User'):
+        """returns User instance from email and pw"""
+        if user_email is None or not isinstance(user_email, str) \
+                or user_pwd is None or not isinstance(user_pwd, str):
+            return None
+        """using search to check db for matching email"""
+        email_found = User.search({'email': user_email})
+        if not email_found:
+            return None
+        """if found then assign 1st matching item to user"""
+        user = email_found[0]
+        """if no pw or wrong pw then return None"""
+        if not user.is_valid_password(user_pwd):
+            return None
+        """else return user instance"""
+        return user
