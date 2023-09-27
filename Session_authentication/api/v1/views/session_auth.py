@@ -19,7 +19,7 @@ def login():
     if not password:
         return jsonify({'error': 'password missing'}), 400
     """use User.search to retrieve user instance from email"""
-    user = User.search({'email' : email})
+    user = User.search({'email': email})
     if not user:
         return jsonify({'error': 'no user found for this email'}), 404
     """if no pw or wrong pw then return None"""
@@ -36,4 +36,3 @@ def login():
     resp = make_response(user[0].id.tojson())
     resp.set_cookie(session_name, session_id)
     return resp
-    
