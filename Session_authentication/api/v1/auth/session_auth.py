@@ -2,7 +2,7 @@
 """new class inherits from Auth"""
 from api.v1.auth.auth import Auth
 import uuid
-from api.v1.views.users import User
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -27,8 +27,7 @@ class SessionAuth(Auth):
         if session_id is None or not isinstance(session_id, str):
             return None
         """getting the value for session_id key"""
-        user_id = SessionAuth.user_id_by_session_id.get(session_id)
-        return user_id
+        return SessionAuth.user_id_by_session_id.get(session_id)
 
     def current_user(self, request=None):
         """(overload) returns user instance based on cookie value"""

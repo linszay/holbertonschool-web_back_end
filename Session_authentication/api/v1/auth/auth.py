@@ -36,7 +36,6 @@ class Auth:
         if request is None:
             return None
         """get value of cookie my_session_id from env var session_name"""
-        sesssion = os.getenv('SESSION_NAME', '_my_session_id')
+        session = os.getenv('SESSION_NAME', '_my_session_id')
         """using request to access the cookie from req cookie dict"""
-        cookie = request.cookies.get(session)
-        return cookie
+        return request.cookies.get(session)
