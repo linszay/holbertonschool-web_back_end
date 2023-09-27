@@ -3,6 +3,7 @@
 import bcrypt
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
+from user import User
 
 
 class Auth:
@@ -12,7 +13,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str):
+    def register_user(self, email: str, password: str) -> User:
         # sourcery skip: use-contextlib-suppress, use-named-expression
         """takes email and pw and returns a user object"""
         """check if email already in use"""
