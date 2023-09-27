@@ -57,6 +57,17 @@ class Auth:
         except Exception:
             return None
 
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """takes session_id and returns User or None"""
+        if session_id is None:
+            return None
+        try:
+            """try to find user"""
+            user = self._db.find_user_by(session_id=session_id)
+            return user
+        except ValueError:
+            return None
+
 
 def _generate_uuid() -> str:
     """returns str representation of new UUID"""
