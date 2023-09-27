@@ -33,7 +33,6 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """returns a user object & saves user to db"""
-        from user import User
         """create a new user"""
         user = User(email=email, hashed_password=hashed_password)
         """add a new user to db session"""
