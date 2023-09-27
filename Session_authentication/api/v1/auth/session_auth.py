@@ -20,7 +20,7 @@ class SessionAuth(Auth):
         """assigning key (session_id) to value (user_id)"""
         SessionAuth.user_id_by_session_id[session_id] = user_id
         return session_id
-    
+
     def user_id_for_session_id(self, session_id: str = None) -> str:
         """method returns user_id for session_id"""
         if session_id is None or not isinstance(session_id, str):
