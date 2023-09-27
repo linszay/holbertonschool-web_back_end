@@ -1,14 +1,33 @@
 #!/usr/bin/env python3
 """setting up basic flask app"""
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from auth import Auth
+
 
 app = Flask(__name__)
+AUTH = Auth()
 
 
 @app.route("/")
 def welcome():
     """use flask.jsonify to return JSON payload"""
     return jsonify({"message": "Bienvenue"})
+
+
+@app.route("/users", methods=["POST"], strict_slashes=False)
+def users():
+    try:
+        """try to find user info"""
+        email = request.form.get("email")
+        password = request.form.get("password")
+        """register the new user"""
+        new_user = AUTH.register_user(email, password)
+        """return JSON payload of the new user"""
+        return jsonify({"email": new_user.email,
+                        "message": "user created"}), 200
+    except ValueError as e:
+        """Jreturn SON payload if the user already exists"""
+        return jsonify({"message": "email already registered"}), 400
 
 
 if __name__ == "__main__":
