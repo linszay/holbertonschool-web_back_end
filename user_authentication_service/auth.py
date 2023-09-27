@@ -42,6 +42,21 @@ class Auth:
         except Exception as e:
             return False
 
+    def create_session(self, email: str) -> str:
+        """create a session for the user and return the session ID"""
+        try:
+            """find the user by email"""
+            user = self._db.find_user_by(email=email)
+            """create a new session ID"""
+            session_id = str(uuid.uuid4())
+            """update the users session_id in the db"""
+            user.session_id = session_id
+            """commit changes to db"""
+            self._db._session.commit()
+            return session_id
+        except Exception:
+            return None
+
 
 def _generate_uuid() -> str:
     """returns str representation of new UUID"""
