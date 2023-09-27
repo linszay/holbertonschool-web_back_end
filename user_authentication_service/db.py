@@ -5,7 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-import typing
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
@@ -40,3 +41,13 @@ class DB:
         """commit changes to save user"""
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs) -> User:
+        """takes in keywords and returns 1st row of users"""
+        try:
+            """filer user by keyword args"""
+            """raise NoResultFound and InvalidRequestError if no reult found"""
+            return self._session.query(User).filter_by(**kwargs).one()
+        except (NoResultFound, InvalidRequestError):
+            raise
+
