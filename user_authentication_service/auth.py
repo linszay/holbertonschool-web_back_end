@@ -59,7 +59,7 @@ class Auth:
 
     def get_user_from_session_id(self, session_id: str) -> User:
         """takes session_id and returns User or None"""
-        if session_id is None:
+        if session_id is None or not session_id:
             return None
         try:
             """try to find user"""
