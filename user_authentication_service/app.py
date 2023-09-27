@@ -5,7 +5,7 @@ from auth import Auth
 
 
 app = Flask(__name__)
-AUTH = Auth()
+auth = Auth()
 
 
 @app.route("/")
@@ -30,13 +30,13 @@ def users():
         return jsonify({"message": "email already registered"}), 400
 
 
-@app.route('/sessions', methods=['POST'])
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login():
     """get email and pw"""
     email = request.form.get('email')
     password = request.form.get('password')
     """check if the login information is correct"""
-    if Auth.valid_login(email, password):
+    if auth.valid_login(email, password):
         """create new session and set the session ID as a cookie"""
         session_id = Auth.create_session(email)
         response = make_response(jsonify({"email": email, "message": "logged in"}), 200)
