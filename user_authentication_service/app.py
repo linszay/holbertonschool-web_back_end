@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """setting up basic flask app"""
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response, abort
 from auth import Auth
 
 
@@ -28,6 +28,22 @@ def users():
     except ValueError as e:
         """Jreturn SON payload if the user already exists"""
         return jsonify({"message": "email already registered"}), 400
+
+
+@app.route('/sessions', methods=['POST'])
+def login():
+    """get email and pw"""
+    email = request.form.get('email')
+    password = request.form.get('password')
+    """check if the login information is correct"""
+    if Auth.valid_login(email, password):
+        """create new session and set the session ID as a cookie"""
+        session_id = Auth.create_session(email)
+        response = make_response(jsonify({"email": email, "message": "logged in"}), 200)
+        response.set_cookie('session_id', session_id)
+        return response
+    else:
+        abort(401)
 
 
 if __name__ == "__main__":
