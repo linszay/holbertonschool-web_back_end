@@ -51,15 +51,15 @@ class DB:
         except (NoResultFound, InvalidRequestError):
             raise
 
-    def update_user(self, user_id: int, **kwargs):
-            """find user by user_id"""
-            user = self.find_user_by(id=user_id)
-            """check keyward args against user attr"""
-            for key in kwargs:
-                if not hasattr(User, key):
-                    raise ValueError(f"Invalid attribute: {key}")
-            """update the users attributes"""
-            for key, value in kwargs.items():
-                setattr(user, key, value)
-            """commit changes to db"""
-            self._session.commit()
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """find user by user_id"""
+        user = self.find_user_by(id=user_id)
+        """check keyward args against user attr"""
+        for key in kwargs:
+            if not hasattr(User, key):
+                raise ValueError(f"Invalid attribute: {key}")
+        """update the users attributes"""
+        for key, value in kwargs.items():
+            setattr(user, key, value)
+        """commit changes to db"""
+        self._session.commit()
