@@ -61,12 +61,9 @@ class Auth:
         """takes session_id and returns User or None"""
         if session_id is None or not session_id:
             return None
-        try:
-            """try to find user"""
-            user = self._db.find_user_by(session_id=session_id)
-            return user
-        except ValueError:
-            return None
+        """find user by session_id"""
+        user = self._db.find_user_by(session_id=session_id)
+        return user
 
 
 def _generate_uuid() -> str:
