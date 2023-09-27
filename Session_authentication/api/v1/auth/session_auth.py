@@ -20,4 +20,3 @@ class SessionAuth(Auth):
         """assigning value (session_id) to key (user_id)"""
         SessionAuth.user_id_by_session_id[session_id] = user_id
         return session_id
-
