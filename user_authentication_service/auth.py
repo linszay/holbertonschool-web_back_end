@@ -77,6 +77,7 @@ class Auth:
             user.session_id = None
             """commit changes to db"""
             self._db.commit()
+            return None
 
 
 def _generate_uuid() -> str:
