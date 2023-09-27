@@ -42,9 +42,9 @@ class Auth:
         except Exception as e:
             return False
 
-    def _generate_uuid() -> str:
-        """returns str representation of new UUID"""
-        return str(uuid.uuid4())
+def _generate_uuid() -> str:
+    """returns str representation of new UUID"""
+    return str(uuid.uuid4())
 
 
 def _hash_password(password: str) -> bytes:
