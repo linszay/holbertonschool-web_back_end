@@ -14,7 +14,6 @@ class Auth:
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
-        # sourcery skip: use-contextlib-suppress, use-named-expression
         """takes email and pw and returns a user object"""
         """check if email already in use"""
         try:
@@ -27,6 +26,20 @@ class Auth:
         hashed_password = _hash_password(password)
         """create new user w email and pw & return user"""
         return self._db.add_user(email=email, hashed_password=hashed_password)
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """Check if the email and password are valid for login."""
+        try:
+            """try to find the user by email"""
+            user = self._db.find_user_by(email=email)
+            """check if pw matches by using bcrypt.checkpw"""
+            if bcrypt.checkpw(password.encode('utf-8'),
+                              user.hashed_password):
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
 
 
 def _hash_password(password: str) -> bytes:
