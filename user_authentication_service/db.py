@@ -50,4 +50,3 @@ class DB:
             return self._session.query(User).filter_by(**kwargs).one()
         except (NoResultFound, InvalidRequestError):
             raise
-
