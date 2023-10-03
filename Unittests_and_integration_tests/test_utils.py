@@ -5,7 +5,7 @@ from parameterized import parameterized
 from utils import access_nested_map
 
 
-class Test_access_nested_map(unittest.TestCase):
+class TestAccessNestedMap(unittest.TestCase):
     """unittesting access_nested_map"""
     """@parameterized.expand shows a tuple of list cases"""
     @parameterized.expand([
