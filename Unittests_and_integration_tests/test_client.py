@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """tests for client.py"""
 import unittest
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 import unittest.mock
 from unittest.mock import patch, PropertyMock
 from client import GithubOrgClient
+from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -76,3 +77,31 @@ class TestGithubOrgClient(unittest.TestCase):
         result = client.has_license(repo, license_key)
         """checking if the result is equal"""
         self.assertEqual(result, expected_result)
+
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """class contains setup and teardown"""
+    @parameterized_class(("org_payload", "repos_payload", "expected_repos", "apache2_repos"), [
+        (org_payload, repos_payload, expected_repos, apache2_repos),
+        ])
+    @classmethod
+    def setUpClass(cls):
+        """mock requests.get to return example payloads"""
+        cls.get_patcher = patch('requests.get')
+        """mock requests.get side_effect to return URL payloads"""
+        cls.mock_get = cls.get_patcher.start()
+        cls.mock_get.side_effect = [
+            mock_response(org_payload),
+            mock_response(repos_payload),
+            mock_response(apache2_repos),
+        ]
+
+    @classmethod
+    def tearDownClass(cls):
+        """Stop the patcher"""
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """Integration test for GithubOrgClient.public_repos"""
+        client = GithubOrgClient(self.org_payload["name"])
+        repos = client.public_repos()
+        self.assertEqual(repos, self.expected_repos)
