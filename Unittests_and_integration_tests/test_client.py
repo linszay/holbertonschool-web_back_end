@@ -11,7 +11,7 @@ class TestGithubOrgClient(unittest.TestCase):
     """unittesting"""
     """use patch to make sure get_json is called once"""
     @parameterized.expand({
-        ("google",), 
+        ("google",),
         ("abc",)
     })
     @patch('client.get_json')
@@ -47,7 +47,8 @@ class TestGithubOrgClient(unittest.TestCase):
             {"name": "repo2"},
         ]
         """mock _public_repos_url property to return a URL"""
-        mock_public_repos_url.return_value = "https://api.github.com/orgs/test_org/repos"
+        mock_public_repos_url.return_value = \
+            "https://api.github.com/orgs/test_org/repos"
         """mock get_json to return the expected payload"""
         mock_get_json.return_value = expected_payload
         """creating an instance of GithubOrgClient"""
@@ -58,7 +59,20 @@ class TestGithubOrgClient(unittest.TestCase):
         """assert that the mocked property was only called once"""
         mock_public_repos_url.assert_called_once()
         """assert that get_json was called once with the expected URL"""
-        mock_get_json.assert_called_once_with("https://api.github.com/orgs/test_org/repos")
+        mock_get_json.assert_called_once_with(
+            "https://api.github.com/orgs/test_org/repos")
         """assert that result is what you expect for the payload"""
         expected_repos = ["repo1", "repo2"]
         self.assertEqual(repos, expected_repos)
+
+    @parameterized.expand([
+        ({"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "my_license", False),
+    ])
+    def test_has_license(self, repo, license_key, expected_result):
+        """Moreeee unit test for GithubOrgClient.has_license"""
+        client = GithubOrgClient("test_org")
+        """call has_license with the provided input"""
+        result = client.has_license(repo, license_key)
+        """checking if the result is equal"""
+        self.assertEqual(result, expected_result)
