@@ -41,6 +41,24 @@ def call_history(method: Callable) -> Callable:
         return output
     return wrapper
 
+def replay(method: Callable) -> Callable:
+    """displays history of calls from a function"""
+    def replay_function(cache_instance: Cache):
+        """get qualified name"""
+        thename = method.__qualname__
+        """get the input/output keys from the func"""
+        inputK = f"{thename}:inputs"
+        outputK = f"{thename}:outputs"
+        """get input/output lists from redis using lrange"""
+        inputs = cache_instance._redis.lrange(inputK, 0, -1)
+        outputs = cache_instance._redis.lrange(outputK, 0, -1)
+        """print call history"""
+        print(f"{thename} was called {len(inputs)} times:")
+        for input_str, output_str in zip(inputs, outputs):
+            input_args = eval(input_str)
+            print(f"{thename}{input_args} -> {output_str}")
+    return replay_function
+
 class Cache():
     """class stores an instance of redis client as private variable"""
     def __init__(self):
@@ -78,3 +96,10 @@ class Cache():
     def get_int(self, key: int) -> typing.Union[int, None]:
         """method automatically paramertizes cache.get to int"""
         return self.get(key, fn=int)
+
+"""example usage from task instructions"""
+cache = Cache()
+cache.store("foo")
+cache.store("bar")
+cache.store(42)
+replay(cache.store)(cache)
