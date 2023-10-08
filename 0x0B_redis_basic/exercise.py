@@ -19,6 +19,7 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+
 def call_history(method: Callable) -> Callable:
     """storing the history of inputs and outputs"""
     @wraps(method)
@@ -41,6 +42,7 @@ def call_history(method: Callable) -> Callable:
         return output
     return wrapper
 
+
 def replay(method: Callable) -> Callable:
     """displays history of calls from a function"""
     def replay_function(cache_instance: Cache):
@@ -58,6 +60,7 @@ def replay(method: Callable) -> Callable:
             input_args = eval(input_str)
             print(f"{thename}{input_args} -> {output_str}")
     return replay_function
+
 
 class Cache():
     """class stores an instance of redis client as private variable"""
@@ -77,7 +80,12 @@ class Cache():
         """return the key"""
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> typing.Union[str, bytes, int, float, None]:
+    def get(self, key: str, fn: Optional[Callable] = None)\
+        -> typing.Union[str,
+                        bytes,
+                        int,
+                        float,
+                        None]:
         """takes key and optional callable arg fn"""
         """get data from regis"""
         data = self._redis.get(key)
@@ -96,6 +104,7 @@ class Cache():
     def get_int(self, key: int) -> typing.Union[int, None]:
         """method automatically paramertizes cache.get to int"""
         return self.get(key, fn=int)
+
 
 """example usage from task instructions"""
 cache = Cache()
