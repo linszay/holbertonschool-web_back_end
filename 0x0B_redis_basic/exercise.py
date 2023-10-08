@@ -19,6 +19,28 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+def call_history(method: Callable) -> Callable:
+    """storing the history of inputs and outputs"""
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """get qualified method name"""
+        mname = method.__qualname__
+        """create input/output lists by using f strings and append
+        the key value(:input or :output) to the value of method name
+        """
+        input_key = f"{mname}:inputs"
+        output_key = f"{mname}:outputs"
+        """change input args to str"""
+        input_str = str(args)
+        """store input in the input list"""
+        self._redis.rpush(input_key, input_str)
+        """execute func to get the output"""
+        output = method(self, *args, **kwargs)
+        """store output in the output list"""
+        self._redis.rpush(output_key, str(output))
+        return output
+    return wrapper
+
 class Cache():
     """class stores an instance of redis client as private variable"""
     def __init__(self):
@@ -27,6 +49,7 @@ class Cache():
         self._redis.flushdb()
 
     @count_calls
+    @call_history
     def store(self, data: typing.Union[str, bytes, int, float]) -> str:
         """takes a data arg and returns a string"""
         """generate a randodm string"""
