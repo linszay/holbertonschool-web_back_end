@@ -4,7 +4,20 @@ import redis
 import uuid
 import typing
 from typing import Optional, Callable
+from functools import wraps
 
+
+def count_calls(method: Callable) -> Callable:
+    """Counts the number of calls"""
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """get the qualified method name"""
+        key = method.__qualname__
+        """increment the counter each time the method is called"""
+        self._redis.incr(key)
+        """call the method and return the result"""
+        return method(self, *args, **kwargs)
+    return wrapper
 
 class Cache():
     """class stores an instance of redis client as private variable"""
@@ -13,6 +26,7 @@ class Cache():
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: typing.Union[str, bytes, int, float]) -> str:
         """takes a data arg and returns a string"""
         """generate a randodm string"""
