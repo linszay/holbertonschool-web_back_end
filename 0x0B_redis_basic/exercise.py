@@ -43,7 +43,7 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(method: Callable) -> Callable:
+def replay(method: Callable):
     """displays history of calls from a function"""
     def replay_function(cache_instance: Cache):
         """get qualified name"""
