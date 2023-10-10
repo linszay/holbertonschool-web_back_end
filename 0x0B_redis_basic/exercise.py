@@ -43,7 +43,7 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(method: Callable):
+def replay(method: Callable) -> Callable:
     """displays history of calls from a function"""
     def replay_function(cache_instance: Cache):
         """get qualified name"""
@@ -107,8 +107,9 @@ class Cache():
 
 
 """example usage from task instructions"""
-cache = Cache()
-cache.store("foo")
-cache.store("bar")
-cache.store(42)
-replay(cache.store)(cache)
+if __name__ == '__main__':
+    cache = Cache()
+    cache.store("foo")
+    cache.store("bar")
+    cache.store(42)
+    replay(cache.store)
