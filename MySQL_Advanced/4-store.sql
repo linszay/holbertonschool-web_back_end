@@ -1,5 +1,6 @@
 -- script creates a trigger
 -- decreases item quantity after adding new order
+DELIMITER //
 CREATE TRIGGER decrease_quantity
 AFTER INSERT ON orders
 FOR EACH ROW
@@ -8,3 +9,5 @@ BEGIN
     SET quantity = quantity - NEW.number
     WHERE name = NEW.item_name;
 END;
+//
+DELIMITER ;
