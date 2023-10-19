@@ -3,7 +3,7 @@
 
 
 def update_topics(mongo_collection, name, topics):
-    """changes all topics of a school doc"""
+    """changes all topics of a school doc based on name"""
     if mongo_collection:
         return mongo_collection.update_many(
             {"name": name},
