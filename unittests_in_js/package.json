@@ -4,6 +4,7 @@
   "description": "At the end of this project, you are expected to be able to explain to anyone, without the help of Google:",
   "main": "index.js",
   "devDependencies": {
+    "chai": "^4.3.10",
     "mocha": "^10.2.0"
   },
   "scripts": {
