@@ -20,7 +20,7 @@ function countStudents(filePath) {
               fieldCount[field] = 1;
               fieldNames[field] = [firstName];
             } else {
-              fieldCount[field]++;
+              fieldCount[field] += 1;
               fieldNames[field].push(firstName);
             }
           }
@@ -28,7 +28,9 @@ function countStudents(filePath) {
 
         console.log(`Number of students: ${lines.length - 1}`);
         for (const field in fieldCount) {
-          console.log(`Number of students in ${field}: ${fieldCount[field]}. List: ${fieldNames[field].join(', ')}`);
+          if (Object.prototype.hasOwnProperty.call(fieldCount, field)) {
+            console.log(`Number of students in ${field}: ${fieldCount[field]}. List: ${fieldNames[field].join(', ')}`);
+          }
         }
 
         resolve();
