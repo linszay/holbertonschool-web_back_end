@@ -1,3 +1,4 @@
+// updating 0-calcul with new arg type which can be sum, subtract, or divide
 function calculateNumber(type, a, b) {
     if (type === 'SUM') {
       return Math.round(a) + Math.round(b);
