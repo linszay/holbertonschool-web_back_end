@@ -1,4 +1,5 @@
 // tests for 1-calcul
+// updated for testing
 const assert = require('assert');
 const calculateNumber = require('./1-calcul');
 

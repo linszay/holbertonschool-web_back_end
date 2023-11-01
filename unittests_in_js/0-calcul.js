@@ -1,5 +1,6 @@
 // func accepts two args
 // rounds and returns the sum
+// updated for testing
 
 function calculateNumber(a, b) {
     return Math.round(a) + Math.round(b);
